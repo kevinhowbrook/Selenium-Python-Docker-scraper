@@ -47,6 +47,8 @@ display.stop()
 ```
 source: http://goo.gl/cmLS9Z
 
-
+#todo
+ - redo readme with my bits
+ cmd to run 
+ ``` docker run --rm -v $(pwd)/code:/code -it selenium python /code/main.py```
  
- docker run --rm -v $(pwd)/code:/code -it selenium python /code/main.py
