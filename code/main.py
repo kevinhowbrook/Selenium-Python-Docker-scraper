@@ -9,7 +9,7 @@ display.start()
 # now Firefox will run in a virtual display.
 # you will not see the browser.
 browser = webdriver.Firefox()
-browser.get('http://www.google.com')
+browser.get('http://google.com')
 print browser.title
 browser.quit()
 

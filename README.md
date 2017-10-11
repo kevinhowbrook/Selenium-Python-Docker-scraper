@@ -50,5 +50,8 @@ source: http://goo.gl/cmLS9Z
 #todo
  - redo readme with my bits
  cmd to run 
- ``` docker run --rm -v $(pwd)/code:/code -it selenium python /code/main.py```
+ 
+ ``` 
+ // run container, mount the python code, mount our local etc/hosts file, image to run (selenium) execute python
+ docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python /code/main.py```
  
