@@ -3,7 +3,15 @@
 Forked from: [khozzy/selenium-python-chrome](https://goo.gl/Fu723f)
 
 #### BUILD IMAGE:
-` docker build -t selenium . ` (in the same path of your Dockerfile)
+` docker build -t selenium . ` (in the same path as the Dockerfile)
+
+#### Running with fabric
+Run ```fab help``` for tasks
+ - ```fab run```
+   - Runs a container, mounting ./code and local /etc/hosts, runs ./code/main.py and removes the container when done
+ - ```fab test```
+   - Runs a container, mounting ./code and local /etc/hosts, runs ./code/test.py and removes the container when done
+
 
 #### RUN CONTAINER:
 
@@ -33,6 +41,4 @@ browser.quit()
 display.stop()
 ```
 
-#todo
- - Fabric scripts
- - full length screenshots
+

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from shopPurchase import ShopPurchase
+from example import Example
 
 
-shop = ShopPurchase()
+test = Example()
