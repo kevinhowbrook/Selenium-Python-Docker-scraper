@@ -1,6 +1,6 @@
 ## Useful Docker Selenium container image for automation
 
-Forked from: [khozzy/selenium-python-chrome](https://goo.gl/Fu723f)
+Forked from: [dimmg/dockselpy](https://github.com/dimmg/dockselpy)
 
 #### BUILD IMAGE:
 ` docker build -t selenium . ` (in the same path as the Dockerfile)
@@ -21,10 +21,8 @@ Run ```fab help``` for tasks
  ```
 
 
-#### EXAMPLE OF CODE WITH SELENIUM:
+#### EXAMPLE OF CODE WITH SELENIUM AND FIREFOX:
 ```
-#!/usr/bin/env python
-
 from pyvirtualdisplay import Display
 from selenium import webdriver
 
@@ -41,4 +39,23 @@ browser.quit()
 display.stop()
 ```
 
+#### EXAMPLE OF CODE WITH GOOGLE HEADLESS
+```
+from pyvirtualdisplay import Display
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+display = Display(visible=0, size=(1200, 800))
+display.start()
+# start Chrome
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--window-size=1200x800")
+browser = webdriver.Chrome(chrome_options=chrome_options)
+browser.get('http://google.com/')
+print(browser.title)
+browser.quit()
+display.stop()
+```
 

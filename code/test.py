@@ -14,7 +14,9 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1200x800")
-browser = webdriver.Chrome(chrome_options=chrome_options, executable_path='/usr/bin/chromedriver')
+# Should chrome not be found use:
+# browser = webdriver.Chrome(chrome_options=chrome_options, executable_path='/usr/bin/chromedriver')
+browser = webdriver.Chrome(chrome_options=chrome_options)
 browser.get('http://google.com/')
 
 ## test bs4
