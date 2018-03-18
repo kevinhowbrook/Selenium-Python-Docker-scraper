@@ -24,7 +24,10 @@ def build():
     local('docker build -t selenium . ')
 # Run container and remove after running
 def run():
-    local('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python /code/main.py')
+    local('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python3 /code/main.py')
 # Tests
 def test():
-    local('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python /code/test.py')
+    local('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python3 /code/test.py')
+
+def pyv():
+    local('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python3 --version')
