@@ -1,33 +1,20 @@
-from fabric.api import local
-from fabric.colors import *
+from invoke import task
 
 # EG
 # def hello(name="world"):
 #     print("Hello %s!" % name)
 
-# Fabric help
+@task
+def test(c):
+    """Runs a container, mounting ./code and local /etc/hosts, runs ./code/test.py and removes the container when done"""
+    c.run('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts missing_people python3 /code/test.py')
 
-def help():
-    """Display help text"""
-    print(blue("\nUsage fab command:arg command:arg etc\n", True))
-    print(white("Task list:\n", True))
-    print(cyan("fab build", True))
-    print(" - Builds the docker image to work with")
-    print(cyan("fab run", True))
-    print(" - Runs a container, mounting ./code and local /etc/hosts, runs ./code/main.py and removes the container when done")
-    print(cyan("fab test", True))
-    print(" - Runs a container, mounting ./code and local /etc/hosts, runs ./code/test.py and removes the container when done")
+@task
+def build(c):
+    """Builds the docker image to work with"""
+    c.run('docker build missing_people .')
 
-
-# Build the container
-def build():
-    local('docker build -t selenium . ')
-# Run container and remove after running
-def run():
-    local('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python3 /code/main.py')
-# Tests
-def test():
-    local('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python3 /code/test.py')
-
-def pyv():
-    local('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts -it selenium python3 --version')
+@task
+def run(c):
+    """Runs a container, mounting ./code and local /etc/hosts, runs ./code/main.py and removes the container when done"""
+    c.run('docker run --rm -v $(pwd)/code:/code -v /etc/hosts:/etc/hosts missing_people python3 /code/main.py')
