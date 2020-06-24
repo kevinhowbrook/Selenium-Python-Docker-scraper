@@ -23,10 +23,7 @@ class Example:
 
         soup = BeautifulSoup(html_source, 'html.parser')
         links = soup.findAll("a")
-        data = []
-        for count, elem in enumerate(links):
-            data.append(elem)
-
+        data = [elem for count, elem in enumerate(links)]
         print(browser.title)
         print(str(len(data)) + 'Links found')
 
