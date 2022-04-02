@@ -1,56 +1,26 @@
-FROM ubuntu:trusty
+FROM python:3.9
 
-RUN apt-get update
-
-RUN apt-get install -y python3 python3-pip
-
-RUN apt-get install -y libgconf2-4 libnss3-1d libxss1
-RUN apt-get install -y fonts-liberation libappindicator1 xdg-utils
-
-RUN apt-get install -y software-properties-common
-RUN apt-get install -y curl unzip wget
-
-RUN apt-get install -y xvfb
-
-
-# install geckodriver and firefox
-
-RUN GECKODRIVER_VERSION=`curl https://github.com/mozilla/geckodriver/releases/latest | grep -Po 'v[0-9]+.[0-9]+.[0-9]+'` && \
-    wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
-    tar -zxf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz -C /usr/local/bin && \
-    chmod +x /usr/local/bin/geckodriver
-
-RUN add-apt-repository -y ppa:ubuntu-mozilla-daily/ppa
-RUN apt-get update -y
-RUN apt-get install -y firefox
-
-
-# install chromedriver and google-chrome
-
-RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
-    wget https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-RUN unzip chromedriver_linux64.zip -d /usr/bin
-RUN chmod +x /usr/bin/chromedriver
-
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN dpkg -i google-chrome*.deb
-RUN apt-get install -y -f
-
-
-# install phantomjs
-
-RUN wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
-    tar -jxf phantomjs-2.1.1-linux-x86_64.tar.bz2 && cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
-
-RUN pip3 install --upgrade --ignore-installed urllib3
-RUN pip3 install selenium beautifulsoup4
-RUN pip3 install pyvirtualdisplay
-
-
-ENV APP_HOME /usr/src/app
-WORKDIR /$APP_HOME
-
-COPY . $APP_HOME/
-
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+RUN apt-get update \
+    && apt-get -y install gcc make \
+    && rm -rf /var/lib/apt/lists/*s
+# install google chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+RUN apt-get -y update
+RUN apt-get install xvfb -y
+RUN apt-get install -y google-chrome-stable
+# install chromedriver
+RUN apt-get install -yqq unzip
+RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+RUN python3 --version
+RUN pip3 --version
+RUN pip install --no-cache-dir --upgrade pip
+WORKDIR /app
+COPY ./requirements.txt /app/requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
+COPY . .
 CMD tail -f /dev/null
 # CMD python3 example.py
