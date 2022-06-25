@@ -15,6 +15,7 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1200x800")
+chrome_options.add_argument('--disable-dev-shm-usage')
 # Should chrome not be found use:
 browser = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 browser.get('http://google.com/')
